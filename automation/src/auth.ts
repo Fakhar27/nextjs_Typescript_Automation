@@ -31,15 +31,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const username = credentials?.username as string | undefined
         const password = credentials?.password as string | undefined
 
-        if(!username || !password) throw new CredentialsSignin("PLEASE PROVIDE BOTH PASSWORD AND USERNAME")
+        if(!username || !password) throw new CredentialsSignin({
+          cause:"PLEASE PROVIDE BOTH PASSWORD AND USERNAME"})
           // CONNECTION WITH DATABSE HERE
           // CUSTOM PAGE FOR LOGIN AND SIGNUP
         const user = await User.findOne({username}).select("+password")
 
-        if(!user) throw new CredentialsSignin("INVALID CREDENTIALS")
-        if(!user.password) throw new CredentialsSignin("INVALID CREDENTIALS, YOU MIGHT HAVE SIGNED UP USING GOOGLE OR GITHUB")
+        if(!user) throw new CredentialsSignin({
+          cause:"INVALID CREDENTIALS"})
+        if(!user.password) throw new CredentialsSignin({
+          cause:"INVALID CREDENTIALS, YOU MIGHT HAVE SIGNED UP USING GOOGLE OR GITHUB"})
         const isMatch = await compare(password, user.password)
-        if(!isMatch) throw new CredentialsSignin("INVALID CREDENTIALS")
+        if(!isMatch) throw new CredentialsSignin({
+          cause:"INVALID CREDENTIALS"})
         else {
           return {
             name: user.name,
@@ -51,13 +55,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // console.log(username, password)
 
         // if(typeof username !== "string") throw new CredentialsSignin({
-        //   cause: "invalid credentials",
+        //   cause: {
+        // cause:"invalid credentials"},
         // })
 
         // const user = {username, id:"1"}
 
         // if(password !== "test") throw new CredentialsSignin({
-        //   cause: "invalid credentials",
+        //   cause: {
+        // cause:"invalid credentials"},
         // })
         // else {
         //   return user
@@ -71,4 +77,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // },
     }),
   ],
+  pages: {
+    signIn: "/login",
+  },
 })

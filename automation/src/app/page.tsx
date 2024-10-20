@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
+import { auth } from '@/auth'
 
 export default function Home() {
+
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false)
   const [text, setText] = useState<string>('')
   const [showModal, setShowModal] = useState<boolean>(false)

@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "sonner"
 import {
     Card,
     CardContent,
@@ -11,11 +12,35 @@ import { Input } from "@/components/ui/input"
 import { buttonVariants } from "@/components/ui/button"
 import { Button } from "@/components/ui/button"
 import Link from "next/link";
-
-
+import { mongoConnection } from "@/lib/utils";
+import { signIn } from "@/auth";
+import { CredentialsSignin } from "next-auth";
+import LoginForm from "@/components/client/form";
   
 
 const Page = () => {
+
+    // const loginHandler = async (formdata: FormData) => {
+
+    //     const username = formdata.get("username") as string | undefined
+    //     const password = formdata.get("password") as string | undefined
+    //     if(!password || !username) throw new Error("Please provide both username and password")
+    //     console.log(username, password)
+        
+    //     mongoConnection()
+    //     try {
+    //         await signIn("credentials",{
+    //             username,
+    //             password,
+    //             redirect:true,
+    //             redirectTo:"/",
+    //         })
+    //     } catch (error) {
+    //         const err = error as CredentialsSignin
+    //         console.error(err.message); 
+    //     }
+    // }
+
     return (
     <div className="flex justify-center items-center h-dvh">
         <Card>
@@ -23,11 +48,7 @@ const Page = () => {
                 <CardTitle>Sign-in</CardTitle>
             </CardHeader>
             <CardContent>
-                <form action="" className="flex flex-col gap-4">
-                    <Input type="text" placeholder="Username" />
-                    <Input type="password" placeholder="Password" />
-                    <Button type="submit">Sign-in</Button>
-                </form>
+                <LoginForm />
             </CardContent>
             <CardFooter className="flex flex-col gap-4">
                 <span>OR</span>
