@@ -2,14 +2,18 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { Router } from 'next/router'
 type MealPlan = string[] | null;
 
 export default function Dashboard() {
+    // const {data:session, status} = useSession()
     const [mealPlan, setMealPlan] = useState<MealPlan>(null)
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<string | null>(null)
     const [retryCount, setRetryCount] = useState<number>(0)
+    const router = useRouter()
 
     useEffect(() => {
         const fetchMealPlan = async () => {
@@ -36,8 +40,8 @@ export default function Dashboard() {
 
         if (loading) {
             fetchMealPlan()
-        }
-    }, [loading, retryCount])
+          }
+        }, [loading])
 
     if (loading) {
         return (

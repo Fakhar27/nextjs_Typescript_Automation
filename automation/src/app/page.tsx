@@ -4,15 +4,23 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { auth } from '@/auth'
+import { useSession } from 'next-auth/react'
 
 export default function Home() {
 
+  // const { data: session, status } = useSession()
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false)
   const [text, setText] = useState<string>('')
   const [showModal, setShowModal] = useState<boolean>(false)
   const fullText = "WELCOME TO YOUR ONE STOP MEAL PLANNER"
   const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScnnqfCQah0MBDQu0wXsYFhf7xiES-rZMcYJfw6IkznhrAluQ/viewform?usp=sf_link'
   const router = useRouter()
+
+  // useEffect(() => {
+  //   if (status === 'unauthenticated') {
+  //     router.push('/login')
+  //   }
+  // }, [status, router])
 
   useEffect(() => {
     if (text.length < fullText.length) {
