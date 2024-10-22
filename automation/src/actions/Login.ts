@@ -1,3 +1,4 @@
+// actions/Login.ts
 "use server"
 
 import { signIn } from "@/auth"
@@ -6,15 +7,19 @@ import { AuthError } from "next-auth"
 
 const loginHandler = async (username: string, password: string) => {
     if (!password || !username) throw new Error("Please provide both username and password")
-    console.log(username, password)
     
-    mongoConnection()
+    await mongoConnection()
     try {
-        await signIn("credentials", {
+        const result = await signIn("credentials", {
             username,
             password,
-            redirect: false, // Change this to false
+            redirect: false,
         })
+
+        if (result?.error) {
+            return "Invalid username or password."
+        }
+
         return null
     } catch (error) {
         if (error instanceof AuthError) {
@@ -25,7 +30,7 @@ const loginHandler = async (username: string, password: string) => {
                     return "An error occurred during sign in."
             }
         }
-        return "An unexpected error occurred."
+        throw error
     }
 }
 

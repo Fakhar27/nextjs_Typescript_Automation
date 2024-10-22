@@ -35,7 +35,7 @@ const LoginForm = () => {
             toast.error(error, { id: toastId })
           } else {
             toast.success("Login successful", { id: toastId })
-            router.refresh() // Redirect to home page on successful login
+            router.push("/")// Redirect to home page on successful login
           }
         } catch (error) {
           toast.error("An unexpected error occurred", { id: toastId })
